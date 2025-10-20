@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Kelas</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="light">
+    <!-- Dark Mode Toggle -->
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <div class="menu-card rekap-card">
+        <div class="rekap-header">
+            <h1 class="rekap-title">
+                <i class="fas fa-calendar-alt"></i> Jadwal Kelas
+            </h1>
+            <a href="/menu" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Kembali ke Menu
+            </a>
+        </div>
+
+        <% if (!jadwal || jadwal.length === 0) { %>
+            <div class="rekap-empty">
+                <i class="fas fa-calendar-times"></i>
+                <h3>Data Jadwal Belum Tersedia</h3>
+                <p>Data jadwal sedang dalam perbaikan. Silakan hubungi administrator untuk informasi lebih lanjut.</p>
+            </div>
+        <% } else { %>
+            <% 
+                const days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+                let hasClasses = false;
+            %>
+            
+            <% days.forEach(day => { %>
+                <% 
+                    const dayClasses = jadwal.filter(item => item.hari === day);
+                    if (dayClasses.length > 0) hasClasses = true;
+                %>
+                
+                <% if (dayClasses.length > 0) { %>
+                    <div class="day-section">
+                        <h3 style="
+                            background: linear-gradient(135deg, #667eea, #764ba2);
+                            color: white;
+                            padding: 15px 20px;
+                            border-radius: 12px;
+                            margin: 20px 0 15px 0;
+                            font-size: 18px;
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+                        ">
+                            <i class="fas fa-calendar-day"></i> <%= day %>
+                        </h3>
+                        
+                        <div class="classes-container" style="display: grid; gap: 15px; margin-bottom: 25px;">
+                            <% dayClasses.forEach(kelas => { %>
+                                <div class="class-item" style="
+                                    background: rgba(255, 255, 255, 0.9);
+                                    border-radius: 12px;
+                                    padding: 20px;
+                                    border-left: 5px solid #667eea;
+                                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                                    transition: all 0.3s ease;
+                                ">
+                                    <div class="class-header" style="
+                                        display: flex;
+                                        justify-content: space-between;
+                                        align-items: flex-start;
+                                        margin-bottom: 10px;
+                                        flex-wrap: wrap;
+                                        gap: 10px;
+                                    ">
+                                        <h4 style="
+                                            margin: 0;
+                                            font-size: 16px;
+                                            font-weight: 600;
+                                            color: #333;
+                                        "><%= kelas.matkul %></h4>
+                                        <span class="class-type" style="
+                                            background: #667eea;
+                                            color: white;
+                                            padding: 4px 12px;
+                                            border-radius: 20px;
+                                            font-size: 12px;
+                                            font-weight: 600;
+                                        "><%= kelas.jenis || 'Lecture' %></span>
+                                    </div>
+                                    
+                                    <div class="class-details" style="display: grid; gap: 8px;">
+                                        <div class="detail-item" style="display: flex; align-items: center; gap: 8px;">
+                                            <i class="fas fa-clock" style="color: #667eea; width: 16px;"></i>
+                                            <span style="font-size: 14px;"><strong>Waktu:</strong> <%= kelas.waktu %></span>
+                                        </div>
+                                        <div class="detail-item" style="display: flex; align-items: center; gap: 8px;">
+                                            <i class="fas fa-door-open" style="color: #667eea; width: 16px;"></i>
+                                            <span style="font-size: 14px;"><strong>Ruang:</strong> <%= kelas.ruang %></span>
+                                        </div>
+                                        <% if (kelas.dosen) { %>
+                                            <div class="detail-item" style="display: flex; align-items: center; gap: 8px;">
+                                                <i class="fas fa-user-graduate" style="color: #667eea; width: 16px;"></i>
+                                                <span style="font-size: 14px;"><strong>Dosen:</strong> <%= kelas.dosen %></span>
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        </div>
+                    </div>
+                <% } %>
+            <% }) %>
+            
+            <% if (!hasClasses) { %>
+                <div class="rekap-empty">
+                    <i class="fas fa-calendar-times"></i>
+                    <h3>Tidak Ada Kelas</h3>
+                    <p>Tidak ada jadwal kelas yang tersedia untuk saat ini.</p>
+                </div>
+            <% } %>
+        <% } %>
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.querySelector('.theme-toggle i');
+            
+            if (body.classList.contains('light')) {
+                body.classList.replace('light', 'dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.replace('dark', 'light');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const body = document.body;
+            const themeIcon = document.querySelector('.theme-toggle i');
+            
+            if (savedTheme === 'dark') {
+                body.classList.replace('light', 'dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                body.classList.replace('dark', 'light');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+    </script>
+</body>
+</html>

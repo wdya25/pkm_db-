@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Menu Utama</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="light">
+  <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
+
+  <div class="menu-card">
+    <h2>Selamat Datang, <%= user.username %> 🎉</h2>
+    <p><strong>Role:</strong>
+      <%= user.role %>
+    </p>
+
+    <h3>Daftar Menu</h3>
+    <ul>
+      <% if (user.role==="admin" ) { %>
+        <li><a href="/mahasiswa">📋 Daftar Matkul & Dosen</a></li>
+        <li><a href="/deadline">📅 Deadline Tugas</a></li>
+        <li><a href="/jadwal">🗓️ Jadwal Mengajar</a></li>
+        <li><a href="/rekap">🗓️ Rekap Kehadiran Mahasiswa</a></li> <!-- ✅ sudah fix -->
+        <% } else if (user.role==="dosen" ) { %>
+          <li><a href="/jadwal">🗓️ Jadwal Mengajar</a></li>
+          <li><a href="/rekap">🗓️ Rekap Kehadiran Mahasiswa</a></li> <!-- ✅ sudah fix -->
+          <% } else if (user.role==="mahasiswa" ) { %>
+            <li><a href="/matkul">📚 Daftar Matkul</a></li>
+            <li><a href="/deadline">📅 Deadline Tugas</a></li>
+            <li><a href="/jadwal">🗓️ Jadwal Kelas</a></li>
+            <% } else { %>
+              <li>Tidak ada menu tersedia</li>
+              <% } %>
+
+                <!-- Menu keluar selalu ada -->
+                <li><a href="/logout">🚪 Keluar</a></li>
+    </ul>
+  </div>
+
+  <!-- 🔽 Script toggle theme -->
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      body.classList.toggle("dark");
+      body.classList.toggle("light");
+
+      const btn = document.querySelector(".theme-toggle");
+      btn.textContent = body.classList.contains("dark") ? "🔆" : "🌙";
+    }
+  </script>
+</body>
+
+</html>

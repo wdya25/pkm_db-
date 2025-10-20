@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Login PKM</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="light">
+  <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
+
+  <div class="card">
+    <h2>Login PKM</h2>
+    <form method="POST" action="/login">
+      <input type="text" name="username" placeholder="Username">
+      <input type="password" name="password" placeholder="Password">
+      <button type="submit">Login</button>
+    </form>
+    <p class="message">
+      <%= message %>
+    </p>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      body.classList.toggle("dark");
+      body.classList.toggle("light");
+
+      const btn = document.querySelector(".theme-toggle");
+      btn.textContent = body.classList.contains("dark") ? "🔆" : "🌙";
+    }
+  </script>
+</body>
+
+</html>

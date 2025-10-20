@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deadline Tugas</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/deadline.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="light">
+    <!-- Dark Mode Toggle -->
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <!-- Container -->
+    <div class="card deadline-card">
+        <h1><i class="far fa-calendar-alt"></i> Deadline Tugas</h1>
+        
+        <!-- Filter dan Pencarian -->
+        <div class="filter-container">
+            <input type="text" id="searchInput" placeholder="🔍 Cari tugas atau mata kuliah...">
+            <select id="statusFilter">
+                <option value="all">Semua Status</option>
+                <option value="active">Aktif</option>
+                <option value="completed">Selesai</option>
+                <option value="overdue">Terlambat</option>
+            </select>
+            <select id="priorityFilter">
+                <option value="all">Semua Prioritas</option>
+                <option value="high">Tinggi</option>
+                <option value="medium">Sedang</option>
+                <option value="low">Rendah</option>
+            </select>
+        </div>
+        
+        <!-- Daftar Tugas -->
+        <div class="tasks-container">
+            <div class="task-header">
+                <h2>Daftar Tugas</h2>
+                <button class="btn-add" onclick="showAddForm()">
+                    <i class="fas fa-plus"></i> Tambah Tugas
+                </button>
+            </div>
+            
+            <div id="tasksList" class="tasks-list">
+                <!-- Tugas akan dimuat di sini via JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Tombol Kembali -->
+        <div class="action-buttons">
+            <a href="/menu" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Kembali ke Menu
+            </a>
+        </div>
+    </div>
+
+    <!-- Modal untuk Tambah/Edit Tugas -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Tambah Tugas Baru</h2>
+            <form id="taskForm">
+                <input type="hidden" id="taskId">
+                <div class="form-group">
+                    <label for="taskName">Nama Tugas</label>
+                    <input type="text" id="taskName" placeholder="Masukkan nama tugas" required>
+                </div>
+                <div class="form-group">
+                    <label for="courseName">Mata Kuliah</label>
+                    <input type="text" id="courseName" placeholder="Masukkan nama mata kuliah" required>
+                </div>
+                <div class="form-group">
+                    <label for="dueDate">Tanggal Deadline</label>
+                    <input type="datetime-local" id="dueDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="priority">Prioritas</label>
+                    <select id="priority">
+                        <option value="low">Rendah</option>
+                        <option value="medium">Sedang</option>
+                        <option value="high">Tinggi</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description">Deskripsi</label>
+                    <textarea id="description" placeholder="Masukkan deskripsi tugas (opsional)" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">Batal</button>
+                    <button type="submit" class="btn-submit">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    </script><script src="/deadline.js"></script>
+</body>
+</html>

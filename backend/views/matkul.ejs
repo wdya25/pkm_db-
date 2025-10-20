@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📘 Jadwal Mata Kuliah & Dosen</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/matkul.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="light">
+    <!-- Dark Mode Toggle -->
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <div class="menu-card rekap-card">
+        <div class="rekap-header">
+            <h1 class="rekap-title">
+                <i class="fas fa-book"></i> Jadwal Mata Kuliah & Dosen
+            </h1>
+            <a href="/menu" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Kembali ke Menu
+            </a>
+        </div>
+
+        <div class="jadwal-container">
+            <div class="calendar-grid">
+                <!-- Header -->
+                <div class="calendar-header">
+                    <i class="fas fa-clock"></i><br>Waktu
+                </div>
+                <div class="calendar-header">Senin</div>
+                <div class="calendar-header">Selasa</div>
+                <div class="calendar-header">Rabu</div>
+                <div class="calendar-header">Kamis</div>
+                <div class="calendar-header">Jumat</div>
+                <div class="calendar-header">Sabtu</div>
+                <div class="calendar-header">Minggu</div>
+
+                <!-- Jam -->
+                <% 
+                    const jam = [
+                        "08:00-09:00", "09:00-10:00", "10:00-11:00", 
+                        "11:00-12:00", "12:00-13:00", "13:00-14:00", 
+                        "14:00-15:00", "15:00-16:00", "16:00-17:00"
+                    ];
+                    const hariList = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+                %>
+                
+                <% jam.forEach(function(jamItem) { %>
+                    <div class="calendar-time"><%= jamItem %></div>
+                    
+                    <% hariList.forEach(function(hari) { %>
+                        <div class="calendar-cell">
+                            <% 
+                                const matkulHariIni = jadwal.filter(function(item) {
+                                    return item.hari === hari && item.waktu.includes(jamItem.split('-')[0]);
+                                });
+                            %>
+                            
+                            <% if (matkulHariIni.length > 0) { %>
+                                <% matkulHariIni.forEach(function(item) { %>
+                                    <div class="matkul-event">
+                                        <strong><%= item.matkul %></strong>
+                                        <div class="matkul-detail">
+                                            <div><%= item.jenis %></div>
+                                            <div><%= item.waktu %></div>
+                                            <div>Ruang: <%= item.ruang %></div>
+                                            <div>Dosen: <%= item.dosen %></div>
+                                        </div>
+                                        <div class="jenis-badge">
+                                            <%= item.jenis === 'Lecture' ? '📚' : '🔬' %> <%= item.jenis %>
+                                        </div>
+                                    </div>
+                                <% }) %>
+                            <% } else { %>
+                                <div class="empty-cell">
+                                    <i class="fas fa-times"></i><br>
+                                    Tidak ada kelas
+                                </div>
+                            <% } %>
+                        </div>
+                    <% }) %>
+                <% }) %>
+            </div>
+        </div>
+
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.querySelector('.theme-toggle i');
+            
+            if (body.classList.contains('light')) {
+                body.classList.replace('light', 'dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.replace('dark', 'light');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const body = document.body;
+            const themeIcon = document.querySelector('.theme-toggle i');
+            
+            if (savedTheme === 'dark') {
+                body.classList.replace('light', 'dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                body.classList.replace('dark', 'light');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+    </script>
+</body>
+</html>

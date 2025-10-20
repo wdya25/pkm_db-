@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Mengajar</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="light">
+    <!-- Dark Mode Toggle -->
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <div class="menu-card rekap-card">
+        <div class="rekap-header">
+            <h1 class="rekap-title">
+                <i class="fas fa-chalkboard-teacher"></i> Jadwal Mengajar
+            </h1>
+            <a href="/menu" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Kembali ke Menu
+            </a>
+        </div>
+
+        <div class="rekap-table-container">
+            <% if (jadwal && jadwal.length > 0) { %>
+                <table class="rekap-table">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-calendar-day"></i> Hari</th>
+                            <th><i class="fas fa-clock"></i> Jam</th>
+                            <th><i class="fas fa-book"></i> Mata Kuliah</th>
+                            <th><i class="fas fa-users"></i> Kelas</th>
+                            <th><i class="fas fa-door-open"></i> Ruang</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% jadwal.forEach(item => { %>
+                            <tr>
+                                <td><strong><%= item.hari %></strong></td>
+                                <td><%= item.jam %></td>
+                                <td><%= item.matkul %></td>
+                                <td><span class="status-badge status-hadir"><%= item.kelas %></span></td>
+                                <td><%= item.ruang %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <div class="rekap-empty">
+                    <i class="fas fa-calendar-times"></i>
+                    <h3>Belum ada jadwal mengajar</h3>
+                    <p>Jadwal mengajar Anda akan muncul di sini ketika sudah diatur oleh administrator.</p>
+                </div>
+            <% } %>
+        </div>
+
+        <div class="action-buttons">
+            <a href="/menu" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Kembali ke Menu Utama
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.querySelector('.theme-toggle i');
+            
+            if (body.classList.contains('light')) {
+                body.classList.replace('light', 'dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.replace('dark', 'light');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const body = document.body;
+            const themeIcon = document.querySelector('.theme-toggle i');
+            
+            if (savedTheme === 'dark') {
+                body.classList.replace('light', 'dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                body.classList.replace('dark', 'light');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+    </script>
+</body>
+</html>

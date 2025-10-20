@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Master Mahasiswa</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="menu-card">
+        <h2>Daftar Mahasiswa</h2>
+        <a href="/mahasiswa/add">➕ Tambah Mahasiswa</a>
+        <table border="1" cellpadding="10" cellspacing="0" style="margin-top:20px; width:100%;">
+            <tr>
+                <th>ID</th>
+                <th>Nama</th>
+                <th>NIM</th>
+                <th>Jurusan</th>
+                <th>Aksi</th>
+            </tr>
+            <% data.forEach(m=> { %>
+                <tr>
+                    <td>
+                        <%= m.id %>
+                    </td>
+                    <td>
+                        <%= m.nama %>
+                    </td>
+                    <td>
+                        <%= m.nim %>
+                    </td>
+                    <td>
+                        <%= m.jurusan %>
+                    </td>
+                    <td>
+                        <a href="/mahasiswa/edit/<%= m.id %>">✏️ Edit</a> |
+                        <a href="/mahasiswa/delete/<%= m.id %>" onclick="return confirm('Hapus data ini?')">🗑️
+                            Hapus</a>
+                    </td>
+                </tr>
+                <% }) %>
+        </table>
+        <br>
+        <a href="/menu">⬅️ Kembali ke Menu</a>
+    </div>
+</body>
+
+</html>

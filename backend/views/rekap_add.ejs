@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Rekap Kehadiran</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="light">
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <div class="card rekap-form-container">
+        <h1 class="rekap-title"><i class="fas fa-plus-circle"></i> Tambah Rekap Kehadiran</h1>
+        
+        <form action="/rekap/add" method="POST" class="rekap-form">
+            <div class="form-group">
+                <label for="nim"><i class="fas fa-id-card"></i> NIM:</label>
+                <input type="text" id="nim" name="nim" required placeholder="Masukkan NIM">
+            </div>
+            
+            <div class="form-group">
+                <label for="nama"><i class="fas fa-user"></i> Nama:</label>
+                <input type="text" id="nama" name="nama" required placeholder="Masukkan nama lengkap">
+            </div>
+            
+            <div class="form-group">
+                <label for="matkul"><i class="fas fa-book"></i> Mata Kuliah:</label>
+                <input type="text" id="matkul" name="matkul" required placeholder="Masukkan nama mata kuliah">
+            </div>
+            
+            <div class="form-group">
+                <label for="pertemuan"><i class="fas fa-list-ol"></i> Pertemuan ke-:</label>
+                <input type="number" id="pertemuan" name="pertemuan" required min="1" placeholder="Masukkan nomor pertemuan">
+            </div>
+            
+            <div class="form-group">
+                <label for="status"><i class="fas fa-check-circle"></i> Status:</label>
+                <select id="status" name="status" required>
+                    <option value="">Pilih Status</option>
+                    <option value="H">Hadir</option>
+                    <option value="A">Absen</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="tanggal"><i class="fas fa-calendar"></i> Tanggal:</label>
+                <input type="date" id="tanggal" name="tanggal" required>
+            </div>
+            
+            <div class="form-actions">
+                <a href="/rekap" class="btn-cancel">
+                    <i class="fas fa-times"></i> Batal
+                </a>
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-save"></i> Simpan
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle i');
+            
+            if (body.classList.contains('light')) {
+                body.classList.replace('light', 'dark');
+                themeToggle.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                body.classList.replace('dark', 'light');
+                themeToggle.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+
+        // Set initial theme and today's date
+        document.addEventListener('DOMContentLoaded', function() {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const themeToggle = document.querySelector('.theme-toggle i');
+            
+            if (prefersDark) {
+                document.body.classList.replace('light', 'dark');
+                themeToggle.classList.replace('fa-moon', 'fa-sun');
+            }
+            
+            // Set today's date as default
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('tanggal').value = today;
+        });
+    </script>
+</body>
+</html>

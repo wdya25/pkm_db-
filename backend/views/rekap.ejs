@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekap Kehadiran</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="light">
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <div class="card rekap-card">
+        <div class="rekap-header">
+            <h1 class="rekap-title"><i class="fas fa-calendar-alt"></i> Rekap Kehadiran Mahasiswa</h1>
+            <a href="/rekap/add" class="btn-add-rekap">
+                <i class="fas fa-plus"></i> Tambah Rekap
+            </a>
+        </div>
+
+        <div class="rekap-table-container">
+            <% if (rekap.length > 0) { %>
+                <table class="rekap-table">
+                    <thead>
+                        <tr>
+                            <th>NIM</th>
+                            <th>Nama</th>
+                            <th>Mata Kuliah</th>
+                            <th>Pertemuan</th>
+                            <th>Status</th>
+                            <th>Tanggal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% rekap.forEach(r => { %>
+                            <tr>
+                                <td><%= r.nim %></td>
+                                <td><%= r.nama %></td>
+                                <td><%= r.matkul %></td>
+                                <td><%= r.pertemuan %></td>
+                                <td>
+                                    <span class="status-badge <%= r.status === 'H' ? 'status-hadir' : 'status-absen' %>">
+                                        <%= r.status === 'H' ? 'Hadir' : 'Absen' %>
+                                    </span>
+                                </td>
+                                <td><%= r.tanggal.toISOString().split("T")[0] %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <div class="rekap-empty">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h3>Belum ada data rekap</h3>
+                    <p>Mulai dengan menambahkan rekap kehadiran pertama</p>
+                </div>
+            <% } %>
+        </div>
+
+        <div class="action-buttons">
+            <a href="/menu" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Kembali ke Menu
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle i');
+            
+            if (body.classList.contains('light')) {
+                body.classList.replace('light', 'dark');
+                themeToggle.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                body.classList.replace('dark', 'light');
+                themeToggle.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+
+        // Set initial theme
+        document.addEventListener('DOMContentLoaded', function() {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const themeToggle = document.querySelector('.theme-toggle i');
+            
+            if (prefersDark) {
+                document.body.classList.replace('light', 'dark');
+                themeToggle.classList.replace('fa-moon', 'fa-sun');
+            }
+        });
+    </script>
+</body>
+</html>
